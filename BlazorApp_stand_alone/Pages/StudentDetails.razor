@@ -1,0 +1,84 @@
+﻿@page "/studentDetails"
+@using Brazor_web_class
+@inject NavigationManager nav
+@inject HttpClient http
+<h3>StudentDetails</h3>
+
+<div class="container">
+	<div class="row">
+		<div class="col-10">
+
+            @if (student == null)
+            {
+                <h2>Loading......</h2>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Father Name</th>
+                            <th scope="col">Mobile Number</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Roll No</th>
+                            <th scope="col">
+                                Action
+                            </th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in student)
+                        {
+                            <tr>
+                                <th scope="row">@item.Id</th>
+                                <td>@item.Name</td>
+                                <td>@item.FatherName</td>
+                                <td>@item.MobileNumber</td>
+                                <td>@item.Semester</td>
+                                <td>@item.Email</td>
+                                <td>@item.RollNumber</td>
+                                <td >
+                                    <button onclick="@(()=>deleteRecoedTask(item.Id))" class="btn btn-danger">Delete</button>
+                                </td>
+                                <td>
+                                    <button onclick="@(()=>nav.NavigateTo($"EditStudent/{item.Id}"))" class="btn btn-primary">Edit</button>
+                                </td>
+                            </tr>
+
+                        }
+
+
+                    </tbody>
+                </table>
+            }
+        </div>
+	</div>
+</div>
+@code {
+
+    public IEnumerable< StudentClass> student {get;set;}
+    protected override  async Task OnInitializedAsync()
+    {
+        try
+        {
+            student = await http.GetFromJsonAsync<IEnumerable<StudentClass>>("https://localhost:7156/api/StudentClasses");
+
+        }
+        catch(Exception ee)
+        {
+            Console.WriteLine("The error is:" + ee.ToString());
+        }
+    }
+    private async Task deleteRecoedTask(int id)
+    {
+
+        await http.DeleteAsync("https://localhost:7156/api/StudentClasses/"+id);
+    }
+
+}

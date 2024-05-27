@@ -1,0 +1,66 @@
+﻿@page "/CreateStudent"
+@using Brazor_web_class
+@inject HttpClient http
+@inject NavigationManager nav
+<h3>Create Student</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <EditForm Model="student" OnValidSubmit="CreateStudentMethod">
+                <div class="form-group">
+                    <label class="form-label">
+                        Name
+                    </label>
+                    <InputText class="form-control" @bind-Value="student.Name"></InputText>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        FatherName
+                    </label>
+                    <InputText class="form-control" @bind-Value="student.FatherName"></InputText>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        Mobile No
+                    </label>
+                    <InputText class="form-control" @bind-Value="student.MobileNumber"></InputText>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        Email
+                    </label>
+                    <InputText class="form-control" @bind-Value="student.Email"></InputText>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        Roll NO
+                    </label>
+                    <InputText class="form-control" @bind-Value="student.RollNumber"></InputText>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        Semester
+                    </label>
+                    <InputText class="form-control" @bind-Value="student.Semester"></InputText>
+                </div>
+                <button class="btn btn-success mt-4" type="submit">
+                    Save Student
+                </button>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    StudentClass student = new StudentClass();
+
+    private  void  CreateStudentMethod()
+    {
+
+        http.PostAsJsonAsync("https://localhost:7156/api/StudentClasses", student);
+        nav.NavigateTo("studentDetails",true);
+
+                                                
+      
+    }
+}

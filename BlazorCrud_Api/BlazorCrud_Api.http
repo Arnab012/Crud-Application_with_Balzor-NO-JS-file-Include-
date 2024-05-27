@@ -1,0 +1,6 @@
+@BlazorCrud_Api_HostAddress = http://localhost:5065
+
+GET {{BlazorCrud_Api_HostAddress}}/StudentClassesController
+Accept: application/json
+
+###
